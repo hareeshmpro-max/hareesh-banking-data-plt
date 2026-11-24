@@ -1,14 +1,21 @@
--- Source-to-target reconciliation pattern
+-- Source-to-target reconciliation
+-- Apply the same business rules on both sides.
 
+-- SOURCE: valid transactions
 SELECT
     COUNT(*) AS transaction_count,
-    SUM(amount) AS transaction_amount
-FROM stg_transactions
-WHERE status = 'SUCCESS'
-  AND amount > 0;
+    SUM(t.amount) AS transaction_amount
+FROM stg_transactions t
+JOIN dim_account a
+    ON t.account_id = a.account_id
+WHERE t.status = 'SUCCESS'
+  AND t.amount > 0;
 
+
+-- TARGET: valid analytics transactions
 SELECT
     COUNT(*) AS transaction_count,
     SUM(amount) AS transaction_amount
 FROM fact_transaction
-WHERE status = 'SUCCESS';
+WHERE status = 'SUCCESS'
+  AND amount > 0;
