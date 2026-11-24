@@ -1,0 +1,9 @@
+{
+  "environment": "local",
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "banking_analytics",
+    "user": "CHANGE_ME"
+  }
+}
